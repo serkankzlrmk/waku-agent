@@ -58,6 +58,9 @@ class Provider:
     # override for backwards compatibility, but must not leak across providers.
     base_url_env: str = ""
     endpoints: tuple[ProviderEndpoint, ...] = ()
+    # Whether a key is required. Local providers (ollama) need none; the OpenAI
+    # client still wants *some* string, so get_client uses a placeholder.
+    requires_key: bool = True
 
     def default_pair(self) -> list[str]:
         """[flagship, fast], deduped — the switcher's default picks."""
@@ -153,6 +156,12 @@ PROVIDERS: dict[str, Provider] = {
     "opencode_go":  Provider("openai", "OPENCODE_GO_API_KEY",
                                "https://opencode.ai/zen/go/v1",
                                "deepseek-v4-flash", "deepseek-v4-flash"),
+    # Ollama — fully local, OpenAI-compatible endpoint. No key; the OpenAI
+    # client is still handed a placeholder. Defaults to qwen3:8b (tool-capable);
+    # override with WAKU_MODEL / WAKU_SMALL_MODEL to any `ollama pull`'d model.
+    "ollama":    Provider("openai", "OLLAMA_FAKE_KEY", "http://localhost:11434/v1",
+                          "gpt-oss:120b-cloud", "gpt-oss:120b-cloud",
+                          requires_key=False),
 }
 
 
@@ -172,6 +181,7 @@ KEY_URLS = {
     "xai": "https://console.x.ai",
     "opencode_zen": "https://opencode.ai/zen",
     "opencode_go": "https://opencode.ai/zen",
+    "ollama": "https://ollama.com/download",  # fully local — no key needed
 }
 
 
@@ -244,7 +254,11 @@ def get_client(settings: Settings):
     # auth header (headers are latin-1; a stray non-ASCII char errors cryptically).
     api_key = (settings.api_key or os.getenv(provider.key_env, "")).strip()
     if not api_key:
-        raise SystemExit(_no_key_message(settings.provider, provider.key_env))
+        if provider.requires_key:
+            raise SystemExit(_no_key_message(settings.provider, provider.key_env))
+        # Local providers send no real secret; the OpenAI SDK still requires a
+        # non-None string for the header. "ollama" is accepted and ignored.
+        api_key = "ollama"
     try:
         api_key.encode("latin-1")
     except UnicodeEncodeError:

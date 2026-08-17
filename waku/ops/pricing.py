@@ -37,6 +37,9 @@ PRICING = {
     # (rough mid-catalog guess). ":free" ids and catalog-priced models never
     # hit this: see price_for().
     "openrouter": (1.0, 3.0),
+    # Fully local — no API, no cost. The ledger still records calls, so the
+    # spend chart needs a rate; zero is the honest one.
+    "ollama": (0.0, 0.0),
 }
 
 # model id -> exact ($/M in, $/M out), filled from the live catalog fetch in

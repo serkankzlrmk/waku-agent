@@ -37,7 +37,7 @@ def test_get_client_builds_the_right_wire(name):
     assert settings.small_model == provider.small_model
 
 
-@pytest.mark.parametrize("name", list(PROVIDERS))
+@pytest.mark.parametrize("name", [n for n, p in PROVIDERS.items() if p.requires_key])
 def test_missing_key_exits_with_the_key_name(name, monkeypatch):
     monkeypatch.delenv(PROVIDERS[name].key_env, raising=False)
     settings = Settings(provider=name, model="", small_model="", api_key="", base_url=None)
