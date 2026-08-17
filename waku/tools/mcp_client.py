@@ -68,7 +68,8 @@ class MCPBridge:
                 await session.initialize()
                 self._sessions[name] = session
                 tools = (await session.list_tools()).tools
-                listed[name] = [{"name": t.name, "description": t.description, "inputSchema": t.inputSchema} for t in tools]
+                listed[name] = [{"name": t.name, "description": t.description,
+                                 "inputSchema": getattr(t, "inputSchema", None) or getattr(t, "input_schema", None)} for t in tools]
             except Exception as exc:  # one bad server shouldn't stop the rest
                 print(f"MCP server '{name}' failed to connect: {exc}")
         return listed
