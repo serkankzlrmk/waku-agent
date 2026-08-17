@@ -28,4 +28,7 @@ waku_workspace/
 credentials.json
 client_secret*.json
 *token*.json
+
+# Hermes plan-mode scratch files
+.zcode/
 .gcp/
