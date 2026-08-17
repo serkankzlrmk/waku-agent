@@ -32,3 +32,41 @@ client_secret*.json
 # Hermes plan-mode scratch files
 .zcode/
 .gcp/
+
+# ─────────────────────────────────────────────────────────────
+# KIŞISEL VERI KORUMASI — bu repo bir kişisel asistan çalıştırıyor.
+# .waku/ (ana home) yukarıda kapalı. Bu bölüm İKİNCİ KATMAN: home
+# WAKU_HOME ile başka bir yere taşınırsa, dosyalar repo köküne düşerse,
+# veya biri yanlışlıkla `git add .` yaparsa kişisel veri asla dışarı çıkmasın.
+# Kural: şüphedeysen TUTMA. GitHub'a giden her byte tekrar geri alınamaz.
+# -----------------------------------------------------------------
+
+# SQLite veritabanları (state.db, calendar.db, ne ad verirsen ver)
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# Asistanın hafızası ve kimliği — SOUL/MEMORY repo köküne kopyalanırsa
+SOUL.md
+MEMORY.md
+
+# Kullanım/analiz kayıtları (hangi model, kaç token, kaç dolar — harcama
+# geçmişi kişiseldir)
+usage.jsonl
+eval_runs.jsonl
+eval_report.json
+
+# Bağlantı sağlık durumu (hangi servise hangi key'le bağlıyız)
+connections_health.json
+
+# Mesaj kuyruğu (outbox) — gönderilecek/gönderilmiş mesajlar
+outbox/
+
+# Takvim dosyaları (herhangi bir isimle, herhangi bir dizinde)
+*.ics
+calendar.ics
+
+# MCP bağlantı yapılandırması — server adları ve argümanları yerel kalmalı
+mcp.json
