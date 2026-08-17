@@ -1,0 +1,26 @@
+#!/bin/sh
+# Pre-commit guard: kişisel veri asla commit'e girmesin.
+#
+# Bu repo bir kişisel asistan çalıştırıyor — .waku/ (state.db, SOUL.md,
+# MEMORY.md, mcp.json, usage.jsonl, traces) ve .env kişisel veridir.
+# gitignore büyük ölçüde korur, ama yanlışlıkla `git add -f` / `git add .`
+# veya WAKU_HOME başka dizine taşınırsa bu hook son savunmadır.
+#
+# Kurulum: `git config core.hooksPath scripts/hooks` (bir kez, her clone'da)
+
+FOUND=""
+for f in $(git diff --cached --name-only); do
+    case "$f" in
+        .waku/*|.env|.env.*|*.db|*.db-wal|*.db-shm|*.sqlite|*.sqlite3|*.ics|usage.jsonl|eval_runs.jsonl|eval_report.json|connections_health.json|mcp.json|outbox/*|SOUL.md|MEMORY.md)
+            FOUND="$FOUND $f" ;;
+    esac
+done
+
+if [ -n "$FOUND" ]; then
+    echo "BLOKLANDI: kişisel veri commit'e eklenmeye çalışıldı:"
+    for f in $FOUND; do echo "  - $f"; done
+    echo "Bunlar yerel kalmalı (gitignore'da). Gerçekten kasıtlıysa:"
+    echo "  git rm --cached <dosya> && git commit --no-verify"
+    exit 1
+fi
+exit 0
