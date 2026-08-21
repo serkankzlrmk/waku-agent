@@ -1,10 +1,21 @@
-<!doctype html><html><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Waku わく</title>
-<link rel="stylesheet" href="/static/style.css"></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Thoth</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
 <nav id="nav">
-  <div class="brand">Waku わく<small id="model" style="cursor:pointer" title="click to change the model" onclick="location.hash='#models'"></small>
-    <button id="nav-toggle" title="Hide sidebar">&#10094;</button></div>
+  <div class="brand">
+    <div class="brand-title">Thoth</div>
+    <small id="model" style="cursor:pointer" title="click to change the model" onclick="location.hash='#models'"></small>
+    <button id="nav-toggle" title="Hide sidebar">&#10094;</button>
+  </div>
   <div class="grp">System</div>
   <a href="#overview" data-v="overview">Overview</a>
   <a href="#gateway" data-v="gateway">Gateway <span class="n" id="n-gw"></span></a>
@@ -14,14 +25,6 @@
   <a href="#tools" data-v="tools">Tools <span class="n" id="n-tools"></span></a>
   <a href="#database" data-v="database">Database <span class="n" id="n-db"></span></a>
   <a href="#ops" data-v="ops">Ops <span class="n" id="n-ops"></span></a>
-  <!-- Arena gets its own section. It was one row under System with the two
-       races behind sub-tabs, on the reasoning that "Models" must not appear
-       twice in the nav. It appears twice now, on purpose, because the two
-       things are not the same word: SETUP > Models picks the model your agent
-       USES, and ARENA > Model race puts ten of them through the loop and
-       scores them. "race" carries that difference in one syllable, and hiding
-       a whole half of the page behind a sub-tab cost more than the repetition
-       ever did. -->
   <div class="grp">Arena</div>
   <a href="#compare/models" data-v="compare" data-sub="models">Model race</a>
   <a href="#compare/memory" data-v="compare" data-sub="memory">Memory race</a>
@@ -53,7 +56,7 @@
   </div>
   <div class="chatlog" id="docklog"></div>
   <div class="chatbar">
-    <input id="dmsg" placeholder="Message Waku&hellip;" autocomplete="off">
+    <input id="dmsg" placeholder="Message Thoth&hellip;" autocomplete="off">
     <button id="mic" title="Click to talk — local Whisper, no cloud"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
     <button id="dsend">Send</button>
   </div>
@@ -72,4 +75,6 @@
 <script src="/static/js/views.js"></script>
 <script src="/static/js/compare.js"></script>
 <script src="/static/js/dock.js"></script>
-<script src="/static/js/main.js"></script></body></html>
+<script src="/static/js/main.js"></script>
+</body>
+</html>

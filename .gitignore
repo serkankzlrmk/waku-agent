@@ -70,3 +70,8 @@ calendar.ics
 
 # MCP bağlantı yapılandırması — server adları ve argümanları yerel kalmalı
 mcp.json
+
+# Binary artifacts & large models
+*.apk
+models/
+window_dump.xml
